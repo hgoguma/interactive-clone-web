@@ -2,6 +2,23 @@
 // 이 안에서의 변수는 외부에서 접근 x (전역변수 피하기)
 
 (() => {
+
+    const actions = {
+        birdFlies (flag) {
+            if(flag) {
+                document.querySelector('[data-index="2"] .bird').style.transform = `translateX(${window.innerWidth}px)`
+            } else {
+                document.querySelector('[data-index="2"] .bird').style.transform = `translateX(-100%)`
+            }
+        },
+        birdFlies2 (flag) {
+            if(flag) {
+                document.querySelector('[data-index="5"] .bird').style.transform = `translate(${window.innerWidth}px, ${-window.innerHeight * 0.7}px)`
+            } else {
+                document.querySelector('[data-index="5"] .bird').style.transform = `translate(-100%)`
+            }
+        }
+    }
     const stepElems = document.querySelectorAll('.step');
     const grapicElems = document.querySelectorAll('.graphic-item');
 
@@ -10,7 +27,6 @@
     let ioIndex;
 
     // Intersection Observer
-    // entries
     // 생성자에 callback 함수를 받음. 
     // callback 함수는 관찰 대상이 사라지거나 나타날 때 호출됨. 
     const io = new IntersectionObserver((entries, observer) => {
@@ -25,12 +41,18 @@
         grapicElems[i].dataset.index = i;
     }
 
-    function activate() {
+    function activate(action) {
         currentItem.classList.add('visible');
+        if(action) {
+            actions[action](true);
+        }
     }
 
-    function inactivate() {
+    function inactivate(action) {
         currentItem.classList.remove('visible');
+        if(action) {
+            actions[action](false);
+        }
     }
 
     window.addEventListener('scroll', () => {
@@ -47,18 +69,21 @@
 
             // getBoundingClientRect 위치, 크기를 반환
             if (boundingRect.top > window.innerHeight * 0.1 && boundingRect.top < window.innerHeight * 0.8) {
-                inactivate();
+                inactivate(currentItem.dataset.action);
                 currentItem = grapicElems[step.dataset.index];
-                activate();
+                activate(currentItem.dataset.action);
             }
         }
         
+    });
+
+    window.addEventListener('load', () => {
+        // refresh 시 scroll을 위로 올림
+        setTimeout(() => { scrollTo(0, 0) }, 100);
+         
     });
 
     activate();
 
 
 })();
-
-// 바깥에서 접근x
-// console.log(a);

@@ -26,6 +26,7 @@ img {
 	top: 0;
 	/* position sticky 는 높이를 따로 차지하고 있지 않아서 높이 지정 필요 */
 	height: 100vh;
+	overflow-x: hidden;
 }
 .graphic-item {
 	display: flex;
@@ -38,6 +39,8 @@ img {
 	height: 100%;
 	opacity: 0;
 	transition: 0.5s;
+	/* will-change : 브라우저에게 미리 알려주는 거 */
+	will-change: opacity;
 }
 .visible {
 	opacity: 1;
@@ -54,4 +57,24 @@ img {
 }
 .scene-img {
 	max-height: 100vh;
+}
+.bird {
+	position: absolute;
+	left: 0;
+	bottom: 70%;
+	width: 100px;
+	/* translate에 %를 사용하면 내 크기가 됨. 즉 내 크기의 100% 만큼 왼쪽으로 옮김. 화면 밖으로 옮김 */
+	transform: translateX(-100%);
+	transition: 1.5s 0.5s linear;
+}
+[data-index="5"] .bird {
+	left: 30%;
+	bottom: 30%;
+}
+.global-footer{
+	padding: 2rem 0;
+	text-align: center;
+}
+.strikethrough {
+	text-decoration: line-through;
 }
